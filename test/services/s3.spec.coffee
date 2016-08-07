@@ -143,10 +143,15 @@ describe 'AWS.S3', ->
           expect(getVersion(s3.getSignerClass())).to.equal('s3')
           done()
 
+        it 'user does not specify a signatureVersion and region supports v2', (done) ->
+          s3 = new AWS.S3({region: 'us-east-1'})
+          expect(getVersion(s3.getSignerClass())).to.equal('s3')
+          done()  
+
       describe 'will return a v4 signer when', ->
 
-        it 'user does not specify a signatureVersion', (done) ->
-          s3 = new AWS.S3()
+        it 'user does not specify a signatureVersion and region only supports v4', (done) ->
+          s3 = new AWS.S3({region: 'eu-central-1'})
           expect(getVersion(s3.getSignerClass())).to.equal('v4')
           done()
 
@@ -485,6 +490,8 @@ describe 'AWS.S3', ->
   # S3 returns a handful of errors without xml bodies (to match the
   # http spec) these tests ensure we give meaningful codes/messages for these.
   describe 'errors with no XML body', ->
+    regionReqOperation = if AWS.util.isNode() then 'headBucket' else 'listObjects'
+    maxKeysParam = if regionReqOperation == 'listObjects' then 0 else undefined
 
     extractError = (statusCode, body, addHeaders, req) ->
       if !req
@@ -577,7 +584,7 @@ describe 'AWS.S3', ->
     it 'does not make async request for bucket region if error.region is set', ->
       regionReq = send: (fn) ->
         fn()
-      spy = helpers.spyOn(s3, 'listObjects').andReturn(regionReq)
+      spy = helpers.spyOn(s3, regionReqOperation).andReturn(regionReq)
       req = request('operation', {Bucket: 'name'})
       body = """
         <Error>
@@ -594,7 +601,7 @@ describe 'AWS.S3', ->
     it 'makes async request for bucket region if error.region not set for a region redirect error code', ->
       regionReq = send: (fn) ->
         fn()
-      spy = helpers.spyOn(s3, 'listObjects').andReturn(regionReq)
+      spy = helpers.spyOn(s3, regionReqOperation).andReturn(regionReq)
       params = Bucket: 'name'
       req = request('operation', params)
       body = """
@@ -606,12 +613,14 @@ describe 'AWS.S3', ->
       error = extractError(301, body, {}, req)
       expect(error.region).to.not.exist
       expect(spy.calls.length).to.equal(1)
+      expect(spy.calls[0].arguments[0].Bucket).to.equal('name')
+      expect(spy.calls[0].arguments[0].MaxKeys).to.equal(maxKeysParam)
       expect(regionReq._requestRegionForBucket).to.exist
 
     it 'does not make request for bucket region if error code is not a region redirect code', ->
       regionReq = send: (fn) ->
         fn()
-      spy = helpers.spyOn(s3, 'listObjects').andReturn(regionReq)
+      spy = helpers.spyOn(s3, regionReqOperation).andReturn(regionReq)
       req = request('operation', {Bucket: 'name'})
       body = """
         <Error>
@@ -628,7 +637,7 @@ describe 'AWS.S3', ->
       regionReq = send: (fn) ->
         s3.bucketRegionCache.name = 'us-west-2'
         fn()
-      spy = helpers.spyOn(s3, 'listObjects').andReturn(regionReq)
+      spy = helpers.spyOn(s3, regionReqOperation).andReturn(regionReq)
       req = request('operation', {Bucket: 'name'})
       body = """
         <Error>
@@ -638,6 +647,8 @@ describe 'AWS.S3', ->
         """
       error = extractError(301, body, {}, req)
       expect(spy.calls.length).to.equal(1)
+      expect(spy.calls[0].arguments[0].Bucket).to.equal('name')
+      expect(spy.calls[0].arguments[0].MaxKeys).to.equal(maxKeysParam)
       expect(error.region).to.equal('us-west-2')
 
     it 'extracts the request ids', ->

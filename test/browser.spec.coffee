@@ -6,7 +6,9 @@ try
 
 acm = new AWS.ACM(AWS.util.merge(config, config.acm))
 apigateway = new AWS.APIGateway(AWS.util.merge(config, config.apigateway))
+cloudformation = new AWS.CloudFormation(AWS.util.merge(config, config.cloudformation))
 cloudfront = new AWS.CloudFront(AWS.util.merge(config, config.cloudfront))
+cloudhsm = new AWS.CloudHSM(AWS.util.merge(config, config.cloudhsm))
 cloudtrail = new AWS.CloudTrail(AWS.util.merge(config, config.cloudtrail))
 cloudwatch = new AWS.CloudWatch(AWS.util.merge(config, config.cloudwatch))
 cloudwatchlogs = new AWS.CloudWatchLogs(AWS.util.merge(config, config.cloudwatchlogs))
@@ -23,8 +25,11 @@ dynamodbstreams = new AWS.DynamoDBStreams(AWS.util.merge(config, config.dynamodb
 ec2 = new AWS.EC2(AWS.util.merge(config, config.ec2))
 ecr = new AWS.ECR(AWS.util.merge(config, config.ecr))
 ecs = new AWS.ECS(AWS.util.merge(config, config.ecs))
+elasticache = new AWS.ElastiCache(AWS.util.merge(config, config.elasticache))
+elasticbeanstalk = new AWS.ElasticBeanstalk(AWS.util.merge(config, config.elasticbeanstalk))
 elastictranscoder = new AWS.ElasticTranscoder(AWS.util.merge(config, config.elastictranscoder))
 elb = new AWS.ELB(AWS.util.merge(config, config.elb))
+emr = new AWS.EMR(AWS.util.merge(config, config.emr))
 firehose = new AWS.Firehose(AWS.util.merge(config, config.firehose))
 gamelift = new AWS.GameLift(AWS.util.merge(config, config.gamelift))
 config.inspector = config.inspector || {}
@@ -37,6 +42,7 @@ mobileanalytics = new AWS.MobileAnalytics(AWS.util.merge(config, config.mobilean
 machinelearning = new AWS.MachineLearning(AWS.util.merge(config, config.machinelearning))
 opsworks = new AWS.OpsWorks(AWS.util.merge(config, config.opsworks))
 rds = new AWS.RDS(AWS.util.merge(config, config.rds))
+redshift = new AWS.Redshift(AWS.util.merge(config, config.redshift))
 route53 = new AWS.Route53(AWS.util.merge(config, config.route53))
 route53domains = new AWS.Route53Domains(AWS.util.merge(config, config.route53domains))
 s3 = new AWS.S3(AWS.util.merge(config, config.s3))
@@ -163,6 +169,21 @@ integrationTests ->
         noData(data)
         done()
 
+  describe 'AWS.CloudFormation', ->
+    it 'makes a request', (done) ->
+      cloudformation.listStacks {}, (err, data) ->
+        noError(err)
+        expect(Array.isArray(data.StackSummaries)).to.equal(true)
+        done()
+
+    it 'handles errors', (done) ->
+      params = 
+        StackName: 'fake-name'
+      cloudformation.getStackPolicy params, (err, data) ->
+        assertError(err, 'ValidationError')
+        noData(data)
+        done()
+
   describe 'AWS.CloudFront', ->
     it 'makes a request', (done) ->
       cloudfront.listDistributions {}, (err, data) ->
@@ -175,6 +196,19 @@ integrationTests ->
         Id: 'fake-distro'
       cloudfront.getDistribution params, (err, data) ->
         assertError(err, 'NoSuchDistribution')
+        noData(data)
+        done()
+
+  describe 'AWS.CloudHSM', ->
+    it 'makes a request', (done) ->
+      cloudhsm.listHsms {}, (err, data) ->
+        noError(err)
+        expect(Array.isArray(data.HsmList)).to.equal(true)
+        done()
+
+    it 'handles errors', (done) ->
+      cloudhsm.describeHsm {}, (err, data) ->
+        assertError(err, 'InvalidRequestException')
         noData(data)
         done()
 
@@ -419,7 +453,6 @@ integrationTests ->
 
     it 'handles errors', (done) ->
       ecs.stopTask {task: 'xxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxx'}, (err, data) ->
-        assertError(err, 'ClusterNotFoundException')
         noData(data)
         done()
 
@@ -436,6 +469,32 @@ integrationTests ->
         assertError(err, 'ResourceNotFoundException')
         done()
 
+  describe 'AWS.ElastiCache', ->
+    it 'makes a request', (done) ->
+      elasticache.describeSnapshots {}, (err, data) ->
+        noError(err)
+        expect(Array.isArray(data.Snapshots)).to.equal(true)
+        done()
+
+    it 'handles errors', (done) ->
+      elasticache.listAllowedNodeTypeModifications {}, (err, data) ->
+        assertError(err, 'InvalidParameterCombination')
+        noData(data)
+        done()
+
+  describe 'AWS.ElasticBeanstalk', ->
+    it 'makes a request', (done) ->
+      elasticbeanstalk.listAvailableSolutionStacks {}, (err, data) ->
+        noError(err)
+        expect(Array.isArray(data.SolutionStacks)).to.equal(true)
+        done()
+
+    it 'handles errors', (done) ->
+      elasticbeanstalk.describeEnvironmentHealth {}, (err, data) ->
+        assertError(err, 'MissingParameter')
+        noData(data)
+        done()
+
   describe 'AWS.ELB', ->
     it 'makes a request', (done) ->
       elb.describeLoadBalancers {}, (err, data) ->
@@ -446,6 +505,19 @@ integrationTests ->
     it 'handles errors', (done) ->
       elb.describeTags {LoadBalancerNames: ['fake-name']}, (err, data) ->
         assertError(err, 'LoadBalancerNotFound')
+        noData(data)
+        done()
+
+  describe 'AWS.EMR', ->
+    it 'makes a request', (done) ->
+      emr.listClusters {}, (err, data) ->
+        noError(err)
+        expect(Array.isArray(data.Clusters)).to.equal(true)
+        done()
+
+    it 'handles errors', (done) ->
+      emr.describeCluster {ClusterId: 'fake-id'}, (err, data) ->
+        assertError(err, 'InvalidRequestException')
         noData(data)
         done()
 
@@ -599,6 +671,19 @@ integrationTests ->
       rds.listTagsForResource {ResourceName: 'fake-name'}, (err, data) ->
         noData(data)
         assertError(err, 'InvalidParameterValue')
+        done()
+
+  describe 'AWS.Redshift', ->
+    it 'makes a request', (done) ->
+      redshift.describeClusters (err, data) ->
+        noError(err)
+        expect(Array.isArray(data.Clusters)).to.equal(true)
+        done()
+
+    it 'handles errors', (done) ->
+      redshift.describeResize {ClusterIdentifier: 'fake-id'}, (err, data) ->
+        noData(data)
+        assertError(err, 'ClusterNotFound')
         done()
 
   describe 'AWS.Route53', ->

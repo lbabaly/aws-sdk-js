@@ -4,22 +4,27 @@
 
 ## Supported Services
 
-By default, the SDK ships with support for 44 AWS services. Each service object
+By default, the SDK ships with support for 54 AWS services. Each service object
 in the SDK currently provides low-level access to every API call in the
 respective AWS service. The full list of methods and their parameters are
 documented in the complete API reference documentation (linked from each
 service name in the list below).
 
-The 44 services that come with the default hosted package of the SDK are:
+The 54 services that come with the default hosted package of the SDK are:
 
 * [AWS.ACM](/AWSJavaScriptSDK/latest/AWS/ACM.html)
 * [AWS.APIGateway](/AWSJavaScriptSDK/latest/AWS/APIGateway.html)
+* [AWS.ApplicationAutoScaling](/AWSJavaScriptSDK/latest/AWS/ApplicationAutoScaling.html)
+* [AWS.AutoScaling](/AWSJavaScriptSDK/latest/AWS/AutoScaling.html)
+* [AWS.CloudFormation](/AWSJavaScriptSDK/latest/AWS/CloudFormation.html)
 * [AWS.CloudFront](/AWSJavaScriptSDK/latest/AWS/CloudFront.html)
+* [AWS.CloudHSM](/AWSJavaScriptSDK/latest/AWS/CloudHSM.html)
 * [AWS.CloudTrail](/AWSJavaScriptSDK/latest/AWS/CloudTrail.html)
 * [AWS.CloudWatch](/AWSJavaScriptSDK/latest/AWS/CloudWatch.html)
 * [AWS.CloudWatchLogs](/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html)
 * [AWS.CloudWatchEvents](/AWSJavaScriptSDK/latest/AWS/CloudWatchEvents.html)
 * [AWS.CodeCommit](/AWSJavaScriptSDK/latest/AWS/CodeCommit.html)
+* [AWS.CodeDeploy](/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html)
 * [AWS.CodePipeline](/AWSJavaScriptSDK/latest/AWS/CodePipeline.html)
 * [AWS.CognitoIdentity](/AWSJavaScriptSDK/latest/AWS/CognitoIdentity.html)
 * [AWS.CognitoIdentityServiceProvider](/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html)
@@ -32,8 +37,11 @@ The 44 services that come with the default hosted package of the SDK are:
 * [AWS.EC2](/AWSJavaScriptSDK/latest/AWS/EC2.html)
 * [AWS.ECR](/AWSJavaScriptSDK/latest/AWS/ECR.html)
 * [AWS.ECS](/AWSJavaScriptSDK/latest/AWS/ECS.html)
+* [AWS.ElastiCache](/AWSJavaScriptSDK/latest/AWS/ElastiCache.html)
+* [AWS.ElasticBeanstalk](/AWSJavaScriptSDK/latest/AWS/ElasticBeanstalk.html)
 * [AWS.ElasticTranscoder](/AWSJavaScriptSDK/latest/AWS/ElasticTranscoder.html)
 * [AWS.ELB](/AWSJavaScriptSDK/latest/AWS/ELB.html)
+* [AWS.EMR](/AWSJavaScriptSDK/latest/AWS/EMR.html)
 * [AWS.Firehose](/AWSJavaScriptSDK/latest/AWS/Firehose.html)
 * [AWS.GameLift](/AWSJavaScriptSDK/latest/AWS/GameLift.html)
 * [AWS.Inspector](/AWSJavaScriptSDK/latest/AWS/Inspector.html)
@@ -46,6 +54,7 @@ The 44 services that come with the default hosted package of the SDK are:
 * [AWS.MachineLearning](/AWSJavaScriptSDK/latest/AWS/MachineLearning.html)
 * [AWS.OpsWorks](/AWSJavaScriptSDK/latest/AWS/OpsWorks.html)
 * [AWS.RDS](/AWSJavaScriptSDK/latest/AWS/RDS.html)
+* [AWS.Redshift](/AWSJavaScriptSDK/latest/AWS/Redshift.html)
 * [AWS.Route53](/AWSJavaScriptSDK/latest/AWS/Route53.html)
 * [AWS.Route53Domains](/AWSJavaScriptSDK/latest/AWS/Route53Domains.html)
 * [AWS.S3](/AWSJavaScriptSDK/latest/AWS/S3.html)
