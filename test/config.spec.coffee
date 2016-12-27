@@ -146,11 +146,19 @@ describe 'AWS.Config', ->
       config = new AWS.Config()
       config.update(foo: 10)
       expect(config.foo).to.equal(undefined)
-
-    it 'should allow service identifiers to be set', ->
-      config = new AWS.Config()
-      config.update(s3: {endpoint: 'localhost'})
-      expect(config.s3).to.eql(endpoint: 'localhost')
+    
+    describe 'should allow', ->
+      allServices = require('../clients/all')
+      for own className, ctor of allServices
+        serviceIdentifier = className.toLowerCase()
+        ((id) ->
+          it id + ' to be set', ->
+            config = new AWS.Config()
+            params = {}
+            params[id] = {endpoint: 'localhost'}
+            config.update(params)
+            expect(config[id]).to.eql(endpoint: 'localhost')
+        )(serviceIdentifier)
 
     it 'allows unknown keys if allowUnknownKeys is set', ->
       config = new AWS.Config()
@@ -243,6 +251,29 @@ describe 'AWS.config', ->
 
   describe 'setPromisesDependency', ->
     it 'updates promise support on requests', ->
-      utilSpy = helpers.spyOn(AWS.util, 'addPromisesToRequests')
+      utilSpy = helpers.spyOn(AWS.util, 'addPromises')
       AWS.config.setPromisesDependency(->)
       expect(utilSpy.calls.length).to.equal(1)
+      expect(Array.isArray(utilSpy.calls[0].arguments[0])).to.be.true
+      expect(utilSpy.calls[0].arguments[0].length).to.equal(4)
+    
+    if typeof Promise != 'undefined'
+      it 'reverts to native promises when null is passed', ->
+        # create fake promise constructor
+        P = ->
+        utilSpy = helpers.spyOn(AWS.util, 'addPromises')
+        AWS.config.setPromisesDependency(P);
+        expect(utilSpy.calls[0].arguments[1] == P).to.be.true
+        # revert promise
+        AWS.config.setPromisesDependency(null);
+        expect(utilSpy.calls[1].arguments[1] == Promise).to.be.true
+        expect(utilSpy.calls[1].arguments[1] == P).to.be.false
+
+  describe 'getPromisesDependency', ->
+    it 'returns PromisesDependency if set', ->
+      AWS.config.setPromisesDependency()
+      expect(AWS.config.getPromisesDependency()).to.be.undefined
+      P = ->
+      AWS.config.setPromisesDependency(P)
+      dep = AWS.config.getPromisesDependency()
+      expect(dep).to.equal(P)

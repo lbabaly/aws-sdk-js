@@ -1,6 +1,6 @@
 helpers = require('../helpers')
 AWS = helpers.AWS
-Stream = AWS.util.nodeRequire('stream')
+Stream = AWS.util.stream
 Buffer = AWS.util.Buffer
 
 describe 'AWS.S3', ->
@@ -66,6 +66,12 @@ describe 'AWS.S3', ->
     it 'combines the region with s3 in the endpoint using a - instead of .', ->
       s3 = new AWS.S3(region: 'us-west-1')
       expect(s3.endpoint.hostname).to.equal('s3-us-west-1.amazonaws.com')
+
+    it 'sets a region-specific dualstack endpoint when dualstack enabled', ->
+      s3 = new AWS.S3(region: 'us-west-1', useDualstack: true)
+      expect(s3.endpoint.hostname).to.equal('s3.dualstack.us-west-1.amazonaws.com')
+      s3 = new AWS.S3(region: 'us-east-1', useDualstack: true)
+      expect(s3.endpoint.hostname).to.equal('s3.dualstack.us-east-1.amazonaws.com')
 
   describe 'clearing bucket region cache', ->
     beforeEach ->
@@ -225,19 +231,44 @@ describe 'AWS.S3', ->
         req = build('getObject', {Bucket: 'foo', Key: 'baz'})
         expect(req.endpoint.hostname).to.equal('foo.s3-accelerate.amazonaws.com')
 
-      describe 'does not use s3-accelerate', ->
+      describe 'does not use s3-accelerate.dualstack or s3-accelerate', ->
         it 'on dns-incompatible buckets', ->
           req = build('getObject', {Bucket: 'foo.baz', Key: 'bar'})
-          expect(req.endpoint.hostname).to.not.contain('s3-accelerate.amazonaws.com')
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
 
         it 'on excluded operations', ->
           req = build('listBuckets')
-          expect(req.endpoint.hostname).to.not.contain('s3-accelerate.amazonaws.com')
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
           req = build('createBucket', {Bucket: 'foo'})
-          expect(req.endpoint.hostname).to.not.contain('s3-accelerate.amazonaws.com')
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
           req = build('deleteBucket', {Bucket: 'foo'})
-          expect(req.endpoint.hostname).to.not.contain('s3-accelerate.amazonaws.com')
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
 
+    describe 'with useAccelerateEndpoint and dualstack set to true', ->
+      beforeEach ->
+        s3 = new AWS.S3(useAccelerateEndpoint: true, useDualstack: true)
+ 
+      it 'changes the hostname to use s3-accelerate for dns-comaptible buckets', ->
+        req = build('getObject', {Bucket: 'foo', Key: 'bar'})
+        expect(req.endpoint.hostname).to.equal('foo.s3-accelerate.dualstack.amazonaws.com')
+ 
+      it 'overrides s3BucketEndpoint configuration when s3BucketEndpoint is set', ->
+        s3 = new AWS.S3(useAccelerateEndpoint: true, useDualstack: true, s3BucketEndpoint: true, endpoint: 'foo.region.amazonaws.com')
+        req = build('getObject', {Bucket: 'foo', Key: 'baz'})
+        expect(req.endpoint.hostname).to.equal('foo.s3-accelerate.dualstack.amazonaws.com')
+ 
+      describe 'does not use s3-accelerate.dualstack or s3-accelerate', ->
+        it 'on dns-incompatible buckets', ->
+          req = build('getObject', {Bucket: 'foo.baz', Key: 'bar'})
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
+ 
+        it 'on excluded operations', ->
+          req = build('listBuckets')
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
+          req = build('createBucket', {Bucket: 'foo'})
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
+          req = build('deleteBucket', {Bucket: 'foo'})
+          expect(req.endpoint.hostname).to.not.contain('s3-accelerate')
 
     describe 'uri escaped params', ->
       it 'uri-escapes path and querystring params', ->
@@ -284,7 +315,9 @@ describe 'AWS.S3', ->
 
       it 'will compute contentMD5', ->
         s3 = new AWS.S3(s3DisableBodySigning: true, signatureVersion: 'v4')
-        req = build('putObject', Bucket: 'bucket', Key: 'key', Body: new Buffer(1024*1024*5))
+        buf = new Buffer(1024*1024*5)
+        buf.fill(0)
+        req = build('putObject', Bucket: 'bucket', Key: 'key', Body: buf)
         expect(req.headers['Content-MD5']).to.equal('XzY+DlipXwbL6bvGYsXftg==')
 
       it 'will not disable body signing when the endpoint is not https', ->
@@ -390,6 +423,58 @@ describe 'AWS.S3', ->
         it 'puts dns-incompat bucket names in path', ->
           req = build('listObjects', {Bucket:'bucket_name'})
           expect(req.endpoint.hostname).to.equal('s3.amazonaws.com')
+          expect(req.path).to.equal('/bucket_name')
+
+      describe 'HTTPS dualstack', ->
+
+        beforeEach ->
+          s3 = new AWS.S3(sslEnabled: true, region: undefined, useDualstack: true)
+
+        it 'puts dns-compat bucket names in the hostname', ->
+          req = build('headObject', {Bucket:'bucket-name',Key:'abc'})
+          expect(req.method).to.equal('HEAD')
+          expect(req.endpoint.hostname).to.equal('bucket-name.s3.dualstack.us-east-1.amazonaws.com')
+          expect(req.path).to.equal('/abc')
+
+        it 'ensures the path contains / at a minimum when moving bucket', ->
+          req = build('listObjects', {Bucket:'bucket-name'})
+          expect(req.endpoint.hostname).to.equal('bucket-name.s3.dualstack.us-east-1.amazonaws.com')
+          expect(req.path).to.equal('/')
+
+        it 'puts dns-compat bucket names in path if they contain a dot', ->
+          req = build('listObjects', {Bucket:'bucket.name'})
+          expect(req.endpoint.hostname).to.equal('s3.dualstack.us-east-1.amazonaws.com')
+          expect(req.path).to.equal('/bucket.name')
+
+        it 'puts dns-compat bucket names in path if configured to do so', ->
+          s3 = new AWS.S3(sslEnabled: true, s3ForcePathStyle: true, region: undefined, useDualstack: true)
+          req = build('listObjects', {Bucket:'bucket-name'})
+          expect(req.endpoint.hostname).to.equal('s3.dualstack.us-east-1.amazonaws.com')
+          expect(req.path).to.equal('/bucket-name')
+
+        it 'puts dns-incompat bucket names in path', ->
+          req = build('listObjects', {Bucket:'bucket_name'})
+          expect(req.endpoint.hostname).to.equal('s3.dualstack.us-east-1.amazonaws.com')
+          expect(req.path).to.equal('/bucket_name')
+
+      describe 'HTTP dualstack', ->
+
+        beforeEach ->
+          s3 = new AWS.S3(sslEnabled: false, region: undefined, useDualstack: true)
+
+        it 'puts dns-compat bucket names in the hostname', ->
+          req = build('listObjects', {Bucket:'bucket-name'})
+          expect(req.endpoint.hostname).to.equal('bucket-name.s3.dualstack.us-east-1.amazonaws.com')
+          expect(req.path).to.equal('/')
+
+        it 'puts dns-compat bucket names in the hostname if they contain a dot', ->
+          req = build('listObjects', {Bucket:'bucket.name'})
+          expect(req.endpoint.hostname).to.equal('bucket.name.s3.dualstack.us-east-1.amazonaws.com')
+          expect(req.path).to.equal('/')
+
+        it 'puts dns-incompat bucket names in path', ->
+          req = build('listObjects', {Bucket:'bucket_name'})
+          expect(req.endpoint.hostname).to.equal('s3.dualstack.us-east-1.amazonaws.com')
           expect(req.path).to.equal('/bucket_name')
 
   describe 'SSE support', ->
@@ -739,6 +824,16 @@ describe 'AWS.S3', ->
       expect(retryable).to.equal(true)
       expect(req.httpRequest.region).to.equal('eu-west-1')
       expect(req.httpRequest.endpoint.hostname).to.equal('name.s3-accelerate.amazonaws.com')
+
+    it 'should retry with updated endpoint if dualstack endpoint is used', ->
+      err = {code: 'PermanentRedirect', statusCode:301, region: 'eu-west-1'}
+      s3 = new AWS.S3(useDualstack: true)
+      req = request('operation', {Bucket: 'name'})
+      req.build()
+      retryable = s3.retryableError(err, req)
+      expect(retryable).to.equal(true)
+      expect(req.httpRequest.region).to.equal('eu-west-1')
+      expect(req.httpRequest.endpoint.hostname).to.equal('name.s3.dualstack.eu-west-1.amazonaws.com')
 
     it 'should not retry on requests for bucket region once region is obtained', ->
       err = {code: 'PermanentRedirect', statusCode:301, region: 'eu-west-1'}

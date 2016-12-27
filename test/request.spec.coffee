@@ -192,6 +192,23 @@ describe 'AWS.Request', ->
           ]
           done()
 
+    it 'supports stopping responses if false is returned', ->
+      helpers.mockResponses [
+        {data: {Results: [{Value: 1}, {Value: 2}], NextToken: 'a'}},
+        {data: {Results: [{Value: 3}], NextToken: 'b'}},
+        {data: Results: [{Value: 4}, {Value: 5}]}
+      ]
+      resps = []
+      service.mockMethod().eachItem (err, data) ->
+        if resps.length == 2
+          return false
+        resps.push([err, data])
+
+      expect(resps).to.eql [
+        [null, {Value: 1}],
+        [null, {Value: 2}]
+      ]
+
     it 'passes error to callback', (done) ->
       helpers.mockResponses [
         {data: {Results: [{Value: 1}, {Value: 2}], NextToken: 'a'}},
@@ -236,6 +253,7 @@ describe 'AWS.Request', ->
 
   describe 'promise', ->
     it 'exists if Promises are available', ->
+      AWS.config.setPromisesDependency()
       req = service.makeRequest('mockMethod')
       if typeof Promise == 'undefined'
         expect(typeof req.promise).to.equal('undefined')
@@ -267,10 +285,10 @@ describe 'AWS.Request', ->
       server = require('http').createServer (req, resp) ->
         app(req, resp)
 
-      server.setTimeout(1)
-
       beforeEach (done) ->
         data = ''; error = null
+
+        server.setTimeout(1)
 
         app = (req, resp) ->
           resp.writeHead(200, {})
@@ -513,6 +531,7 @@ describe 'AWS.Request', ->
             console.log(e.stack)
 
       it 'retries temporal errors and streams resulting successful response', (done) ->
+        server.setTimeout(1000)
         errs = 0
         app = (req, resp) ->
           status = if errs < 2 then 500 else 200

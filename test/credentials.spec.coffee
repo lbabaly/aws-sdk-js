@@ -362,6 +362,7 @@ if AWS.util.isNode()
       </AssumeRoleResponse>
       '''
       creds = new AWS.SharedIniFileCredentials()
+      expect(creds.roleArn).to.equal('arn')
       creds.refresh (err) ->
         expect(creds.accessKeyId).to.equal('KEY')
         expect(creds.secretAccessKey).to.equal('SECRET')
@@ -427,6 +428,12 @@ if AWS.util.isNode()
 
   describe 'AWS.ECSCredentials', ->
     creds = null
+    responseData = {
+      AccessKeyId: 'KEY',
+      SecretAccessKey: 'SECRET',
+      Token: 'TOKEN',
+      Expiration: (new Date(0)).toISOString()
+    }
 
     beforeEach ->
       creds = new AWS.ECSCredentials(host: 'host')
@@ -437,13 +444,8 @@ if AWS.util.isNode()
 
     mockEndpoint = (expireTime) ->
       helpers.spyOn(creds, 'request').andCallFake (path, cb) ->
-          cb null,
-            JSON.stringify({
-              AccessKeyId: 'KEY'
-              SecretAccessKey: 'SECRET'
-              Token: 'TOKEN'
-              Expiration: expireTime.toISOString()
-            })
+          expiration = expireTime.toISOString()
+          cb null, JSON.stringify(AWS.util.merge(responseData, {Expiration: expiration}))
 
     describe 'constructor', ->
       it 'allows passing of options', ->
@@ -479,16 +481,10 @@ if AWS.util.isNode()
 
     describe 'credsFormatIsValid', ->
       it 'returns false when data is missing required property', ->
-        responseData = {AccessKeyId: 'KEY', SecretAccessKey: 'SECRET', Token: 'TOKEN'}
-        expect(creds.credsFormatIsValid(responseData)).to.be.false
+        incompleteData = {AccessKeyId: 'KEY', SecretAccessKey: 'SECRET', Token: 'TOKEN'}
+        expect(creds.credsFormatIsValid(incompleteData)).to.be.false
 
       it 'returns true when data has all required properties', ->
-        responseData = {
-          AccessKeyId: 'KEY',
-          SecretAccessKey: 'SECRET',
-          Token: 'TOKEN',
-          Expiration: (new Date(0)).toISOString()
-        }
         expect(creds.credsFormatIsValid(responseData)).to.be.true
 
     describe 'needsRefresh', ->
@@ -518,6 +514,39 @@ if AWS.util.isNode()
         creds.refresh((err) -> callbackErr = err)
         expect(spy.calls.length).to.equal(0)
         expect(callbackErr).to.not.be.null
+
+      it 'retries up to specified maxRetries for timeout errors', (done) ->
+        process.env['AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'] = '/path'
+        options = {maxRetries: 3}
+        creds = new AWS.ECSCredentials(options)
+        httpClient = AWS.HttpClient.getInstance()
+        spy = helpers.spyOn(httpClient, 'handleRequest').andCallFake (httpReq, httpOp, cb, errCb) ->
+          errCb({code: 'TimeoutError'})
+        creds.refresh (err) ->
+          expect(err).to.not.be.null
+          expect(err.code).to.equal('TimeoutError')
+          expect(spy.calls.length).to.equal(4)
+          done()
+
+      it 'makes only one request when multiple calls are made before first one finishes', (done) ->
+        concurrency = countdown = 10
+        process.env['AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'] = '/path'
+        spy = helpers.spyOn(AWS.ECSCredentials.prototype, 'request').andCallFake (path, cb) ->
+          respond = ->
+            cb null, JSON.stringify(responseData)
+          process.nextTick(respond)
+        providers = []
+        callRefresh = (ind) ->
+          providers[ind] = new AWS.ECSCredentials(host: 'host')
+          providers[ind].refresh (err) ->
+            expect(err).to.equal(null)
+            expect(providers[ind].accessKeyId).to.equal('KEY')
+            countdown--
+            if countdown == 0
+              expect(spy.calls.length).to.equal(1)
+              done()
+        for x in [1..concurrency]
+          callRefresh(x - 1)
 
 describe 'AWS.TemporaryCredentials', ->
   creds = null
@@ -1107,3 +1136,59 @@ describe 'AWS.CognitoIdentityCredentials', ->
         creds.params.LoginId = 'LOGINIDA'
         creds.clearCachedId()
 
+  if typeof Promise == 'function'
+    describe 'promises', ->
+      err = null
+      mockCred = null
+
+      catchFunction = (e) ->
+        err = e
+
+      beforeEach ->
+        AWS.util.addPromises(AWS.Credentials, Promise)
+
+      beforeEach ->
+        err = null
+        mockCred = new helpers.MockCredentialsProvider()
+
+      describe 'getPromise', ->
+        spy = null
+
+        beforeEach ->
+          spy = helpers.spyOn(mockCred, 'refresh').andCallThrough()
+
+        it 'resolves when get is successful', ->
+          # if a promise is returned from a test, then done callback not needed
+          # and next test will wait for promise to resolve before running
+          return mockCred.getPromise().then ->
+            expect(spy.calls.length).to.equal(1)
+            expect(err).to.be.null
+            expect(mockCred.accessKeyId).to.equal('akid')
+            expect(mockCred.secretAccessKey).to.equal('secret')
+
+        it 'rejects when get is unsuccessful', ->
+          mockCred.forceRefreshError = true
+          return mockCred.getPromise().catch(catchFunction).then ->
+            expect(spy.calls.length).to.equal(1)
+            expect(err).to.not.be.null
+            expect(err.code).to.equal('MockCredentialsProviderFailure')
+            expect(err.message).to.equal('mock credentials refresh error')
+            expect(mockCred.accessKeyId).to.be.undefined
+            expect(mockCred.secretAccessKey).to.be.undefined
+
+      describe 'refreshPromise', ->
+        it 'resolves when refresh is successful', ->
+          refreshError = false
+          return mockCred.refreshPromise().then ->
+            expect(err).to.be.null
+            expect(mockCred.accessKeyId).to.equal('akid')
+            expect(mockCred.secretAccessKey).to.equal('secret')
+
+        it 'rejects when refresh is unsuccessful', ->
+          mockCred.forceRefreshError = true
+          return mockCred.refreshPromise().catch(catchFunction).then ->
+            expect(err).to.not.be.null
+            expect(err.code).to.equal('MockCredentialsProviderFailure')
+            expect(err.message).to.equal('mock credentials refresh error')
+            expect(mockCred.accessKeyId).to.be.undefined
+            expect(mockCred.secretAccessKey).to.be.undefined

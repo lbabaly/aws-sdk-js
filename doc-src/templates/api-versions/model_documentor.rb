@@ -12,6 +12,15 @@ module Documentor
     end
     docs = docs.gsub(/\{(\S+)\}/, '`{\1}`')
     docs = docs.gsub(/\s+/, ' ').strip
+    ## The markdown to html converter incorrectly replaces underscores and asterisks in 'code' tags with 'em' tags.
+    ## html escape these symbols to get around this.
+    docs = docs.gsub(/<code>(.+?)<\/code>/m) do
+      ## strip out extraneous code blocks
+      text = $1.gsub('`','')
+      text = text.gsub('_', '&#95;')
+      text = text.gsub('*', '&#42;')
+      "<code>#{text}</code>"
+    end
     docs == '' ? nil : docs
   end
 
@@ -142,6 +151,16 @@ class MethodDocumentor
       @lines << "@see #{operation['documentation_url']}"
       @lines << "  #{api['serviceAbbreviation']} Documentation for #{operation_name}"
     end
+
+    ## Service Reference
+    if api['metadata']['uid']
+      @lines << '<div class="tags">'
+      @lines << '<p class="tag_title">Service Reference:</p>'
+      @lines << '<ul class="see">'
+      @lines << '<li><a href="/goto/WebAPI/' + api['metadata']['uid'] + '/' + operation_name + '">' + operation_name +  '</a></li>'
+      @lines << '</ul>'
+      @lines << '</div>'
+    end
   end
 
   def shapes(api, rules, options = {})
@@ -200,7 +219,7 @@ class SharedExampleVisitor
     if operation_input
       input_shape_name = operation_input['shape']
       input_shape = @api['shapes'][input_shape_name]
-      input = visit(input_shape, @example['input'], "", [], @comments['input'])
+      input = visit(input_shape, @example['input'] || {}, "", [], @comments['input'])
     else
       input = "{}"
     end
@@ -214,7 +233,7 @@ class SharedExampleVisitor
     if operation_output
       output_shape_name = operation_output['shape']
       output_shape = @api['shapes'][output_shape_name]
-      if output = visit(output_shape, @example['output'], "  ", [], @comments['output'])
+      if output = visit(output_shape, @example['output'] || {}, "  ", [], @comments['output'])
         lines << "  /*"
         lines << "  data = #{output}"
         lines << "  */"
@@ -523,6 +542,10 @@ doc_client
     if rules['enum']
       @lines << "#{prefix}   Possible values include:"
       @lines += rules['enum'].map{|v| "#{prefix}   * `#{v.inspect}`" }
+    end
+
+    if rules['idempotencyToken']
+      @lines << "#{prefix}   If a token is not provided, the SDK will use a version 4 UUID."
     end
 
   end

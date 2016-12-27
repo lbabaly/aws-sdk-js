@@ -1,9 +1,6 @@
 helpers = require('../helpers')
 AWS = helpers.AWS
 
-beforeEach ->
-  helpers.spyOn(AWS.util, 'userAgent').andReturn('aws-sdk-js/0.1')
-
 buildRequest = ->
   ddb = new AWS.DynamoDB({region: 'region', endpoint: 'localhost', apiVersion: '2011-12-05'})
   req = ddb.makeRequest('listTables', {ExclusiveStartTableName: 'bår'})
@@ -35,6 +32,7 @@ describe 'AWS.Signers.V4', ->
   signer = null
 
   beforeEach ->
+    helpers.spyOn(AWS.util, 'userAgent').andReturn('aws-sdk-js/0.1')
     creds = accessKeyId: 'akid', secretAccessKey: 'secret', sessionToken: 'session'
     signer = buildSigner()
     signer.addAuthorization(creds, date)
@@ -194,6 +192,10 @@ describe 'AWS.Signers.V4', ->
 
     it 'should ignore Authorization header', ->
       signer.request.headers = {'Authorization': 'foo'}
+      expect(signer.canonicalHeaders()).to.equal('')
+
+    it 'should ignore X-Amzn-Trace-Id header', ->
+      signer.request.headers = {'X-Amzn-Trace-Id': 'foo'}
       expect(signer.canonicalHeaders()).to.equal('')
 
     it 'should lowercase all header names (not values)', ->
