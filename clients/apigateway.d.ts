@@ -76,6 +76,14 @@ declare class APIGateway extends Service {
    */
   createModel(callback?: (err: AWSError, data: APIGateway.Types.Model) => void): Request<APIGateway.Types.Model, AWSError>;
   /**
+   * Creates a ReqeustValidator of a given RestApi.
+   */
+  createRequestValidator(params: APIGateway.Types.CreateRequestValidatorRequest, callback?: (err: AWSError, data: APIGateway.Types.RequestValidator) => void): Request<APIGateway.Types.RequestValidator, AWSError>;
+  /**
+   * Creates a ReqeustValidator of a given RestApi.
+   */
+  createRequestValidator(callback?: (err: AWSError, data: APIGateway.Types.RequestValidator) => void): Request<APIGateway.Types.RequestValidator, AWSError>;
+  /**
    * Creates a Resource resource.
    */
   createResource(params: APIGateway.Types.CreateResourceRequest, callback?: (err: AWSError, data: APIGateway.Types.Resource) => void): Request<APIGateway.Types.Resource, AWSError>;
@@ -180,6 +188,14 @@ declare class APIGateway extends Service {
    */
   deleteDomainName(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
+   * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+   */
+  deleteGatewayResponse(params: APIGateway.Types.DeleteGatewayResponseRequest, callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
+  /**
+   * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+   */
+  deleteGatewayResponse(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
+  /**
    * Represents a delete integration.
    */
   deleteIntegration(params: APIGateway.Types.DeleteIntegrationRequest, callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
@@ -219,6 +235,14 @@ declare class APIGateway extends Service {
    * Deletes a model.
    */
   deleteModel(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
+  /**
+   * Deletes a RequestValidator of a given RestApi.
+   */
+  deleteRequestValidator(params: APIGateway.Types.DeleteRequestValidatorRequest, callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
+  /**
+   * Deletes a RequestValidator of a given RestApi.
+   */
+  deleteRequestValidator(callback?: (err: AWSError, data: {}) => void): Request<{}, AWSError>;
   /**
    * Deletes a Resource resource.
    */
@@ -428,6 +452,22 @@ declare class APIGateway extends Service {
    */
   getExport(callback?: (err: AWSError, data: APIGateway.Types.ExportResponse) => void): Request<APIGateway.Types.ExportResponse, AWSError>;
   /**
+   * Gets a GatewayResponse of a specified response type on the given RestApi.
+   */
+  getGatewayResponse(params: APIGateway.Types.GetGatewayResponseRequest, callback?: (err: AWSError, data: APIGateway.Types.GatewayResponse) => void): Request<APIGateway.Types.GatewayResponse, AWSError>;
+  /**
+   * Gets a GatewayResponse of a specified response type on the given RestApi.
+   */
+  getGatewayResponse(callback?: (err: AWSError, data: APIGateway.Types.GatewayResponse) => void): Request<APIGateway.Types.GatewayResponse, AWSError>;
+  /**
+   * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the Amazon API Gateway-generated default GatewayResponses collection for the supported response types.
+   */
+  getGatewayResponses(params: APIGateway.Types.GetGatewayResponsesRequest, callback?: (err: AWSError, data: APIGateway.Types.GatewayResponses) => void): Request<APIGateway.Types.GatewayResponses, AWSError>;
+  /**
+   * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the Amazon API Gateway-generated default GatewayResponses collection for the supported response types.
+   */
+  getGatewayResponses(callback?: (err: AWSError, data: APIGateway.Types.GatewayResponses) => void): Request<APIGateway.Types.GatewayResponses, AWSError>;
+  /**
    * Represents a get integration.
    */
   getIntegration(params: APIGateway.Types.GetIntegrationRequest, callback?: (err: AWSError, data: APIGateway.Types.Integration) => void): Request<APIGateway.Types.Integration, AWSError>;
@@ -483,6 +523,22 @@ declare class APIGateway extends Service {
    * Describes existing Models defined for a RestApi resource.
    */
   getModels(callback?: (err: AWSError, data: APIGateway.Types.Models) => void): Request<APIGateway.Types.Models, AWSError>;
+  /**
+   * Gets a RequestValidator of a given RestApi.
+   */
+  getRequestValidator(params: APIGateway.Types.GetRequestValidatorRequest, callback?: (err: AWSError, data: APIGateway.Types.RequestValidator) => void): Request<APIGateway.Types.RequestValidator, AWSError>;
+  /**
+   * Gets a RequestValidator of a given RestApi.
+   */
+  getRequestValidator(callback?: (err: AWSError, data: APIGateway.Types.RequestValidator) => void): Request<APIGateway.Types.RequestValidator, AWSError>;
+  /**
+   * Gets the RequestValidators collection of a given RestApi.
+   */
+  getRequestValidators(params: APIGateway.Types.GetRequestValidatorsRequest, callback?: (err: AWSError, data: APIGateway.Types.RequestValidators) => void): Request<APIGateway.Types.RequestValidators, AWSError>;
+  /**
+   * Gets the RequestValidators collection of a given RestApi.
+   */
+  getRequestValidators(callback?: (err: AWSError, data: APIGateway.Types.RequestValidators) => void): Request<APIGateway.Types.RequestValidators, AWSError>;
   /**
    * Lists information about a resource.
    */
@@ -620,11 +676,19 @@ declare class APIGateway extends Service {
    */
   importRestApi(callback?: (err: AWSError, data: APIGateway.Types.RestApi) => void): Request<APIGateway.Types.RestApi, AWSError>;
   /**
-   * Represents a put integration.
+   * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+   */
+  putGatewayResponse(params: APIGateway.Types.PutGatewayResponseRequest, callback?: (err: AWSError, data: APIGateway.Types.GatewayResponse) => void): Request<APIGateway.Types.GatewayResponse, AWSError>;
+  /**
+   * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+   */
+  putGatewayResponse(callback?: (err: AWSError, data: APIGateway.Types.GatewayResponse) => void): Request<APIGateway.Types.GatewayResponse, AWSError>;
+  /**
+   * Sets up a method's integration.
    */
   putIntegration(params: APIGateway.Types.PutIntegrationRequest, callback?: (err: AWSError, data: APIGateway.Types.Integration) => void): Request<APIGateway.Types.Integration, AWSError>;
   /**
-   * Represents a put integration.
+   * Sets up a method's integration.
    */
   putIntegration(callback?: (err: AWSError, data: APIGateway.Types.Integration) => void): Request<APIGateway.Types.Integration, AWSError>;
   /**
@@ -748,6 +812,14 @@ declare class APIGateway extends Service {
    */
   updateDomainName(callback?: (err: AWSError, data: APIGateway.Types.DomainName) => void): Request<APIGateway.Types.DomainName, AWSError>;
   /**
+   * Updates a GatewayResponse of a specified response type on the given RestApi.
+   */
+  updateGatewayResponse(params: APIGateway.Types.UpdateGatewayResponseRequest, callback?: (err: AWSError, data: APIGateway.Types.GatewayResponse) => void): Request<APIGateway.Types.GatewayResponse, AWSError>;
+  /**
+   * Updates a GatewayResponse of a specified response type on the given RestApi.
+   */
+  updateGatewayResponse(callback?: (err: AWSError, data: APIGateway.Types.GatewayResponse) => void): Request<APIGateway.Types.GatewayResponse, AWSError>;
+  /**
    * Represents an update integration.
    */
   updateIntegration(params: APIGateway.Types.UpdateIntegrationRequest, callback?: (err: AWSError, data: APIGateway.Types.Integration) => void): Request<APIGateway.Types.Integration, AWSError>;
@@ -788,6 +860,14 @@ declare class APIGateway extends Service {
    */
   updateModel(callback?: (err: AWSError, data: APIGateway.Types.Model) => void): Request<APIGateway.Types.Model, AWSError>;
   /**
+   * Updates a RequestValidator of a given RestApi.
+   */
+  updateRequestValidator(params: APIGateway.Types.UpdateRequestValidatorRequest, callback?: (err: AWSError, data: APIGateway.Types.RequestValidator) => void): Request<APIGateway.Types.RequestValidator, AWSError>;
+  /**
+   * Updates a RequestValidator of a given RestApi.
+   */
+  updateRequestValidator(callback?: (err: AWSError, data: APIGateway.Types.RequestValidator) => void): Request<APIGateway.Types.RequestValidator, AWSError>;
+  /**
    * Changes information about a Resource resource.
    */
   updateResource(params: APIGateway.Types.UpdateResourceRequest, callback?: (err: AWSError, data: APIGateway.Types.Resource) => void): Request<APIGateway.Types.Resource, AWSError>;
@@ -812,11 +892,11 @@ declare class APIGateway extends Service {
    */
   updateStage(callback?: (err: AWSError, data: APIGateway.Types.Stage) => void): Request<APIGateway.Types.Stage, AWSError>;
   /**
-   * Grants a temporary extension to the reamining quota of a usage plan associated with a specified API key.
+   * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
    */
   updateUsage(params: APIGateway.Types.UpdateUsageRequest, callback?: (err: AWSError, data: APIGateway.Types.Usage) => void): Request<APIGateway.Types.Usage, AWSError>;
   /**
-   * Grants a temporary extension to the reamining quota of a usage plan associated with a specified API key.
+   * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
    */
   updateUsage(callback?: (err: AWSError, data: APIGateway.Types.Usage) => void): Request<APIGateway.Types.Usage, AWSError>;
   /**
@@ -873,11 +953,11 @@ declare namespace APIGateway {
      */
     enabled?: Boolean;
     /**
-     * The date when the API Key was created, in ISO 8601 format.
+     * The timestamp when the API Key was created.
      */
     createdDate?: Timestamp;
     /**
-     * When the API Key was last updated, in ISO 8601 format.
+     * The timestamp when the API Key was last updated.
      */
     lastUpdatedDate?: Timestamp;
     /**
@@ -902,7 +982,7 @@ declare namespace APIGateway {
     warnings?: ListOfString;
     position?: String;
     /**
-     * The current page of any ApiKey resources in the collection of ApiKey resources.
+     * The current page of elements from this collection.
      */
     items?: ListOfApiKey;
   }
@@ -963,7 +1043,7 @@ declare namespace APIGateway {
   export interface Authorizers {
     position?: String;
     /**
-     * Gets the current list of Authorizer resources in the collection.
+     * The current page of elements from this collection.
      */
     items?: ListOfAuthorizer;
   }
@@ -973,18 +1053,18 @@ declare namespace APIGateway {
      */
     basePath?: String;
     /**
-     * The name of the API.
+     * The string identifier of the associated RestApi.
      */
     restApiId?: String;
     /**
-     * The name of the API's stage.
+     * The name of the associated stage.
      */
     stage?: String;
   }
   export interface BasePathMappings {
     position?: String;
     /**
-     * The current page of any BasePathMapping resources in the collection of base path mapping resources.
+     * The current page of elements from this collection.
      */
     items?: ListOfBasePathMapping;
   }
@@ -1006,18 +1086,18 @@ declare namespace APIGateway {
      */
     pemEncodedCertificate?: String;
     /**
-     * The date when the client certificate was created, in ISO 8601 format.
+     * The timestamp when the client certificate was created.
      */
     createdDate?: Timestamp;
     /**
-     * The date when the client certificate will expire, in ISO 8601 format.
+     * The timestamp when the client certificate will expire.
      */
     expirationDate?: Timestamp;
   }
   export interface ClientCertificates {
     position?: String;
     /**
-     * The current page of any ClientCertificate resources in the collection of ClientCertificate resources.
+     * The current page of elements from this collection.
      */
     items?: ListOfClientCertificate;
   }
@@ -1054,7 +1134,7 @@ declare namespace APIGateway {
   }
   export interface CreateAuthorizerRequest {
     /**
-     * The RestApi identifier under which the Authorizer will be created.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1104,7 +1184,7 @@ declare namespace APIGateway {
      */
     basePath?: String;
     /**
-     * The name of the API that you want to apply this mapping to.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1114,7 +1194,7 @@ declare namespace APIGateway {
   }
   export interface CreateDeploymentRequest {
     /**
-     * The RestApi resource identifier for the Deployment resource to create.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1144,7 +1224,7 @@ declare namespace APIGateway {
   }
   export interface CreateDocumentationPartRequest {
     /**
-     * [Required] The identifier of an API of the to-be-created documentation part.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1158,7 +1238,7 @@ declare namespace APIGateway {
   }
   export interface CreateDocumentationVersionRequest {
     /**
-     * [Required] Specifies the API identifier of the to-be-created documentation version.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1176,25 +1256,29 @@ declare namespace APIGateway {
   }
   export interface CreateDomainNameRequest {
     /**
-     * The name of the DomainName resource.
+     * (Required) The name of the DomainName resource.
      */
     domainName: String;
     /**
-     * The name of the certificate.
+     * The user-friendly name of the certificate.
      */
-    certificateName: String;
+    certificateName?: String;
     /**
-     * The body of the server certificate provided by your certificate authority.
+     * [Deprecated] The body of the server certificate provided by your certificate authority.
      */
-    certificateBody: String;
+    certificateBody?: String;
     /**
-     * Your certificate's private key.
+     * [Deprecated] Your certificate's private key.
      */
-    certificatePrivateKey: String;
+    certificatePrivateKey?: String;
     /**
-     * The intermediate certificates and optionally the root certificate, one after the other without any blank lines. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
+     * [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
      */
-    certificateChain: String;
+    certificateChain?: String;
+    /**
+     * The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
+     */
+    certificateArn?: String;
   }
   export interface CreateModelRequest {
     /**
@@ -1218,9 +1302,27 @@ declare namespace APIGateway {
      */
     contentType: String;
   }
+  export interface CreateRequestValidatorRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * The name of the to-be-created RequestValidator.
+     */
+    name?: String;
+    /**
+     * A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true) or not (false).
+     */
+    validateRequestBody?: Boolean;
+    /**
+     * A Boolean flag to indicate whether to validate request parameters, true, or not false.
+     */
+    validateRequestParameters?: Boolean;
+  }
   export interface CreateResourceRequest {
     /**
-     * The identifier of the RestApi for the resource. 
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1256,7 +1358,7 @@ declare namespace APIGateway {
   }
   export interface CreateStageRequest {
     /**
-     * The identifier of the RestApi resource for the Stage resource to create.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1332,7 +1434,7 @@ declare namespace APIGateway {
   }
   export interface DeleteAuthorizerRequest {
     /**
-     * The RestApi identifier for the Authorizer resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1358,7 +1460,7 @@ declare namespace APIGateway {
   }
   export interface DeleteDeploymentRequest {
     /**
-     * The identifier of the RestApi resource for the Deployment resource to delete.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1368,7 +1470,7 @@ declare namespace APIGateway {
   }
   export interface DeleteDocumentationPartRequest {
     /**
-     * [Required] Specifies the identifier of an API of the to-be-deleted documentation part.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1378,7 +1480,7 @@ declare namespace APIGateway {
   }
   export interface DeleteDocumentationVersionRequest {
     /**
-     * [Required] The identifier of an API of a to-be-deleted documentation snapshot.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1392,9 +1494,19 @@ declare namespace APIGateway {
      */
     domainName: String;
   }
+  export interface DeleteGatewayResponseRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPES 
+     */
+    responseType: GatewayResponseType;
+  }
   export interface DeleteIntegrationRequest {
     /**
-     * Specifies a delete integration request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1408,7 +1520,7 @@ declare namespace APIGateway {
   }
   export interface DeleteIntegrationResponseRequest {
     /**
-     * Specifies a delete integration response request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1426,7 +1538,7 @@ declare namespace APIGateway {
   }
   export interface DeleteMethodRequest {
     /**
-     * The RestApi identifier for the Method resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1440,7 +1552,7 @@ declare namespace APIGateway {
   }
   export interface DeleteMethodResponseRequest {
     /**
-     * The RestApi identifier for the MethodResponse resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1458,7 +1570,7 @@ declare namespace APIGateway {
   }
   export interface DeleteModelRequest {
     /**
-     * The RestApi under which the model will be deleted.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1466,9 +1578,19 @@ declare namespace APIGateway {
      */
     modelName: String;
   }
+  export interface DeleteRequestValidatorRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * [Required] The identifier of the RequestValidator to be deleted.
+     */
+    requestValidatorId: String;
+  }
   export interface DeleteResourceRequest {
     /**
-     * The RestApi identifier for the Resource resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1478,13 +1600,13 @@ declare namespace APIGateway {
   }
   export interface DeleteRestApiRequest {
     /**
-     * The ID of the RestApi you want to delete.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
   }
   export interface DeleteStageRequest {
     /**
-     * The identifier of the RestApi resource for the Stage resource to delete.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1529,7 +1651,7 @@ declare namespace APIGateway {
   export interface Deployments {
     position?: String;
     /**
-     * The current page of any Deployment resources in the collection of deployment resources.
+     * The current page of elements from this collection.
      */
     items?: ListOfDeployment;
   }
@@ -1559,7 +1681,7 @@ declare namespace APIGateway {
   }
   export interface DocumentationPartLocation {
     /**
-     * The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHROZER, MODEL, or RESOURCE type.
+     * The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHROZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
      */
     type: DocumentationPartType;
     /**
@@ -1584,7 +1706,7 @@ declare namespace APIGateway {
   export interface DocumentationParts {
     position?: String;
     /**
-     * The current page of DocumentationPart resources in the DocumentationParts collection.
+     * The current page of elements from this collection.
      */
     items?: ListOfDocumentationPart;
   }
@@ -1605,7 +1727,7 @@ declare namespace APIGateway {
   export interface DocumentationVersions {
     position?: String;
     /**
-     * The current page of DocumentationVersion items from the DocumentationVersions collection of an API.
+     * The current page of elements from this collection.
      */
     items?: ListOfDocumentationVersion;
   }
@@ -1619,7 +1741,11 @@ declare namespace APIGateway {
      */
     certificateName?: String;
     /**
-     * The date when the certificate was uploaded, in ISO 8601 format.
+     * The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
+     */
+    certificateArn?: String;
+    /**
+     * The timestamp when the certificate was uploaded.
      */
     certificateUploadDate?: Timestamp;
     /**
@@ -1630,7 +1756,7 @@ declare namespace APIGateway {
   export interface DomainNames {
     position?: String;
     /**
-     * The current page of any DomainName resources in the collection of DomainName resources.
+     * The current page of elements from this collection.
      */
     items?: ListOfDomainName;
   }
@@ -1651,7 +1777,7 @@ declare namespace APIGateway {
   }
   export interface FlushStageAuthorizersCacheRequest {
     /**
-     * The API identifier of the stage to flush.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1661,13 +1787,43 @@ declare namespace APIGateway {
   }
   export interface FlushStageCacheRequest {
     /**
-     * The API identifier of the stage to flush its cache.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
      * The name of the stage to flush its cache.
      */
     stageName: String;
+  }
+  export interface GatewayResponse {
+    /**
+     * The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPES 
+     */
+    responseType?: GatewayResponseType;
+    /**
+     * The HTTP status code for this GatewayResponse.
+     */
+    statusCode?: StatusCode;
+    /**
+     * Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
+     */
+    responseParameters?: MapOfStringToString;
+    /**
+     * Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
+     */
+    responseTemplates?: MapOfStringToString;
+    /**
+     * A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by Amazon API Gateway without any customization by an API developer. 
+     */
+    defaultResponse?: Boolean;
+  }
+  export type GatewayResponseType = "DEFAULT_4XX"|"DEFAULT_5XX"|"RESOURCE_NOT_FOUND"|"UNAUTHORIZED"|"INVALID_API_KEY"|"ACCESS_DENIED"|"AUTHORIZER_FAILURE"|"AUTHORIZER_CONFIGURATION_ERROR"|"INVALID_SIGNATURE"|"EXPIRED_TOKEN"|"MISSING_AUTHENTICATION_TOKEN"|"INTEGRATION_FAILURE"|"INTEGRATION_TIMEOUT"|"API_CONFIGURATION_ERROR"|"UNSUPPORTED_MEDIA_TYPE"|"BAD_REQUEST_PARAMETERS"|"BAD_REQUEST_BODY"|"REQUEST_TOO_LARGE"|"THROTTLED"|"QUOTA_EXCEEDED"|string;
+  export interface GatewayResponses {
+    position?: String;
+    /**
+     * Returns the entire collection, because of no pagination support.
+     */
+    items?: ListOfGatewayResponse;
   }
   export interface GenerateClientCertificateRequest {
     /**
@@ -1689,11 +1845,11 @@ declare namespace APIGateway {
   }
   export interface GetApiKeysRequest {
     /**
-     * The position of the current ApiKeys resource to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of ApiKeys to get information about.
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
     /**
@@ -1711,7 +1867,7 @@ declare namespace APIGateway {
   }
   export interface GetAuthorizerRequest {
     /**
-     * The RestApi identifier for the Authorizer resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1721,15 +1877,15 @@ declare namespace APIGateway {
   }
   export interface GetAuthorizersRequest {
     /**
-     * The RestApi identifier for the Authorizers resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
-     * If not all Authorizer resources in the response were present, the position will specify where to start the next page of results.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * Limit the number of Authorizer resources in the response.
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
   }
@@ -1749,11 +1905,11 @@ declare namespace APIGateway {
      */
     domainName: String;
     /**
-     * The position of the current BasePathMapping resource in the collection to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of BasePathMapping resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+     * The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
      */
     limit?: NullableInteger;
   }
@@ -1765,51 +1921,55 @@ declare namespace APIGateway {
   }
   export interface GetClientCertificatesRequest {
     /**
-     * The position of the current ClientCertificate resource in the collection to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of ClientCertificate resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+     * The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
      */
     limit?: NullableInteger;
   }
   export interface GetDeploymentRequest {
     /**
-     * The identifier of the RestApi resource for the Deployment resource to get information about.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
      * The identifier of the Deployment resource to get information about.
      */
     deploymentId: String;
+    /**
+     * A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the "apisummary" string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
+     */
+    embed?: ListOfString;
   }
   export interface GetDeploymentsRequest {
     /**
-     * The identifier of the RestApi resource for the collection of Deployment resources to get information about.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
-     * The position of the current Deployment resource in the collection to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of Deployment resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+     * The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
      */
     limit?: NullableInteger;
   }
   export interface GetDocumentationPartRequest {
     /**
-     * [Required] The identifier of an API of the to-be-retrieved documentation part.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
-     * [Required] The identifier of the to-be-retrieved documentation part.
+     * [Required] The string identifier of the associated RestApi.
      */
     documentationPartId: String;
   }
   export interface GetDocumentationPartsRequest {
     /**
-     * [Required] The identifier of the API of the to-be-retrieved documentation parts.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1825,17 +1985,17 @@ declare namespace APIGateway {
      */
     path?: String;
     /**
-     * The position of the to-be-retrieved documentation part in the DocumentationParts collection.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The size of the paged results.
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
   }
   export interface GetDocumentationVersionRequest {
     /**
-     * [Required] The identifier of the API of the to-be-retrieved documentation snapshot.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1845,15 +2005,15 @@ declare namespace APIGateway {
   }
   export interface GetDocumentationVersionsRequest {
     /**
-     * [Required] The identifier of an API of the to-be-retrieved documentation versions.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
-     * The position of the returned DocumentationVersion in the DocumentationVersions collection.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The page size of the returned documentation versions.
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
   }
@@ -1865,17 +2025,17 @@ declare namespace APIGateway {
   }
   export interface GetDomainNamesRequest {
     /**
-     * The position of the current domain names to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of DomainName resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+     * The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
      */
     limit?: NullableInteger;
   }
   export interface GetExportRequest {
     /**
-     * The identifier of the RestApi to be exported.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1895,9 +2055,33 @@ declare namespace APIGateway {
      */
     accepts?: String;
   }
+  export interface GetGatewayResponseRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPES 
+     */
+    responseType: GatewayResponseType;
+  }
+  export interface GetGatewayResponsesRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
+     */
+    position?: String;
+    /**
+     * The maximum number of returned results per page. The GatewayResponses collection does not support pagination and the limit does not apply here.
+     */
+    limit?: NullableInteger;
+  }
   export interface GetIntegrationRequest {
     /**
-     * Specifies a get integration request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1911,7 +2095,7 @@ declare namespace APIGateway {
   }
   export interface GetIntegrationResponseRequest {
     /**
-     * Specifies a get integration response request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1929,7 +2113,7 @@ declare namespace APIGateway {
   }
   export interface GetMethodRequest {
     /**
-     * The RestApi identifier for the Method resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1943,7 +2127,7 @@ declare namespace APIGateway {
   }
   export interface GetMethodResponseRequest {
     /**
-     * The RestApi identifier for the MethodResponse resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1975,7 +2159,7 @@ declare namespace APIGateway {
   }
   export interface GetModelTemplateRequest {
     /**
-     * The ID of the RestApi under which the model exists.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -1985,41 +2169,73 @@ declare namespace APIGateway {
   }
   export interface GetModelsRequest {
     /**
-     * The RestApi identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
-     * The position of the next set of results in the Models resource to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of models in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+     * The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+     */
+    limit?: NullableInteger;
+  }
+  export interface GetRequestValidatorRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * [Required] The identifier of the RequestValidator to be retrieved.
+     */
+    requestValidatorId: String;
+  }
+  export interface GetRequestValidatorsRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * The current pagination position in the paged result set.
+     */
+    position?: String;
+    /**
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
   }
   export interface GetResourceRequest {
     /**
-     * The RestApi identifier for the resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
      * The identifier for the Resource resource.
      */
     resourceId: String;
+    /**
+     * A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
+     */
+    embed?: ListOfString;
   }
   export interface GetResourcesRequest {
     /**
-     * The RestApi identifier for the Resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
-     * The position of the next set of results in the current Resources resource to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of Resource resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+     * The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
      */
     limit?: NullableInteger;
+    /**
+     * A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
+     */
+    embed?: ListOfString;
   }
   export interface GetRestApiRequest {
     /**
@@ -2029,17 +2245,17 @@ declare namespace APIGateway {
   }
   export interface GetRestApisRequest {
     /**
-     * The position of the current RestApis resource in the collection to get information about.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of RestApi resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+     * The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
      */
     limit?: NullableInteger;
   }
   export interface GetSdkRequest {
     /**
-     * The identifier of the RestApi that the SDK will use.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2063,17 +2279,17 @@ declare namespace APIGateway {
   }
   export interface GetSdkTypesRequest {
     /**
-     * The position of the last fetched element in the SdkTypes collection.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of SdkType instances to be returned. 
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
   }
   export interface GetStageRequest {
     /**
-     * The identifier of the RestApi resource for the Stage resource to get information about.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2083,7 +2299,7 @@ declare namespace APIGateway {
   }
   export interface GetStagesRequest {
     /**
-     * The stages' API identifiers.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2107,11 +2323,11 @@ declare namespace APIGateway {
      */
     usagePlanId: String;
     /**
-     * A query parameter specifying the zero-based index specifying the position of a usage plan key.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * A query parameter specifying the maximum number usage plan keys returned by the GET request.
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
     /**
@@ -2127,7 +2343,7 @@ declare namespace APIGateway {
   }
   export interface GetUsagePlansRequest {
     /**
-     * The zero-based array index specifying the position of the to-be-retrieved UsagePlan resource.
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
@@ -2135,7 +2351,7 @@ declare namespace APIGateway {
      */
     keyId?: String;
     /**
-     * The number of UsagePlan resources to be returned as the result.
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
   }
@@ -2157,11 +2373,11 @@ declare namespace APIGateway {
      */
     endDate: String;
     /**
-     * Position
+     * The current pagination position in the paged result set.
      */
     position?: String;
     /**
-     * The maximum number of results to be returned.
+     * The maximum number of returned results per page.
      */
     limit?: NullableInteger;
   }
@@ -2181,7 +2397,7 @@ declare namespace APIGateway {
   }
   export interface ImportDocumentationPartsRequest {
     /**
-     * [Required] The identifier of an API of the to-be-imported documentation parts.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2203,11 +2419,11 @@ declare namespace APIGateway {
      */
     failOnWarnings?: Boolean;
     /**
-     * Custom header parameters as part of the request.
+     * Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json.
      */
     parameters?: MapOfStringToString;
     /**
-     * The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
+     * The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported. The maximum size of the API definition file is 2MB.
      */
     body: _Blob;
   }
@@ -2291,9 +2507,11 @@ declare namespace APIGateway {
   export type ListOfDocumentationPart = DocumentationPart[];
   export type ListOfDocumentationVersion = DocumentationVersion[];
   export type ListOfDomainName = DomainName[];
+  export type ListOfGatewayResponse = GatewayResponse[];
   export type ListOfLong = Long[];
   export type ListOfModel = Model[];
   export type ListOfPatchOperation = PatchOperation[];
+  export type ListOfRequestValidator = RequestValidator[];
   export type ListOfResource = Resource[];
   export type ListOfRestApi = RestApi[];
   export type ListOfSdkConfigurationProperty = SdkConfigurationProperty[];
@@ -2321,7 +2539,7 @@ declare namespace APIGateway {
      */
     httpMethod?: String;
     /**
-     * The method's authorization type.
+     * The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
      */
     authorizationType?: String;
     /**
@@ -2332,6 +2550,10 @@ declare namespace APIGateway {
      * A boolean flag specifying whether a valid ApiKey is required to invoke this method.
      */
     apiKeyRequired?: NullableBoolean;
+    /**
+     * The identifier of a RequestValidator for request validation.
+     */
+    requestValidatorId?: String;
     /**
      * A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
      */
@@ -2411,7 +2633,7 @@ declare namespace APIGateway {
   }
   export interface MethodSnapshot {
     /**
-     * Specifies the type of authorization used for the method.
+     * The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
      */
     authorizationType?: String;
     /**
@@ -2444,7 +2666,7 @@ declare namespace APIGateway {
   export interface Models {
     position?: String;
     /**
-     * Gets the current Model resource in the collection.
+     * The current page of elements from this collection.
      */
     items?: ListOfModel;
   }
@@ -2461,7 +2683,7 @@ declare namespace APIGateway {
      */
     path?: String;
     /**
-     * The new target value of the update operation. 
+     * The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. In a Windows shell, see Using JSON for Parameters.
      */
     value?: String;
     /**
@@ -2471,9 +2693,31 @@ declare namespace APIGateway {
   }
   export type PathToMapOfMethodSnapshot = {[key: string]: MapOfMethodSnapshot};
   export type ProviderARN = string;
+  export interface PutGatewayResponseRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPES 
+     */
+    responseType: GatewayResponseType;
+    /**
+     * The HTTP status code of the GatewayResponse.
+     */
+    statusCode?: StatusCode;
+    /**
+     * Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
+     */
+    responseParameters?: MapOfStringToString;
+    /**
+     * Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
+     */
+    responseTemplates?: MapOfStringToString;
+  }
   export interface PutIntegrationRequest {
     /**
-     * Specifies a put integration request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2493,7 +2737,7 @@ declare namespace APIGateway {
      */
     integrationHttpMethod?: String;
     /**
-     * Specifies a put integration input's Uniform Resource Identifier (URI). When the integration type is HTTP or AWS, this field is required. For integration with Lambda as an AWS service proxy, this value is of the 'arn:aws:apigateway:&lt;region&gt;:lambda:path/2015-03-31/functions/&lt;functionArn&gt;/invocations' format.
+     * Specifies the integration's Uniform Resource Identifier (URI). For HTTP integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification. For AWS integrations, the URI should be of the form arn:aws:apigateway:{region}:{subdomain.service|service}:{path|action}/{service_api}. Region, subdomain and service are used to determine the right endpoint. For AWS services that use the Action= query string parameter, service_api should be a valid action for the desired service. For RESTful AWS service APIs, path is used to indicate that the remaining substring in the URI should be treated as the path to the resource, including the initial /.
      */
     uri?: String;
     /**
@@ -2527,7 +2771,7 @@ declare namespace APIGateway {
   }
   export interface PutIntegrationResponseRequest {
     /**
-     * Specifies a put integration response request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2561,7 +2805,7 @@ declare namespace APIGateway {
   }
   export interface PutMethodRequest {
     /**
-     * The RestApi identifier for the new Method resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2573,7 +2817,7 @@ declare namespace APIGateway {
      */
     httpMethod: String;
     /**
-     * Specifies the type of authorization used for the method.
+     * The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
      */
     authorizationType: String;
     /**
@@ -2596,10 +2840,14 @@ declare namespace APIGateway {
      * Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value.
      */
     requestModels?: MapOfStringToString;
+    /**
+     * The identifier of a RequestValidator for validating the method request.
+     */
+    requestValidatorId?: String;
   }
   export interface PutMethodResponseRequest {
     /**
-     * The RestApi identifier for the Method resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2626,7 +2874,7 @@ declare namespace APIGateway {
   export type PutMode = "merge"|"overwrite"|string;
   export interface PutRestApiRequest {
     /**
-     * The identifier of the RestApi to be updated. 
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2638,11 +2886,11 @@ declare namespace APIGateway {
      */
     failOnWarnings?: Boolean;
     /**
-     * Custom headers supplied as part of the request. 
+     * Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json.
      */
     parameters?: MapOfStringToString;
     /**
-     * The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
+     * The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported. The maximum size of the API definition file is 2MB.
      */
     body: _Blob;
   }
@@ -2660,6 +2908,31 @@ declare namespace APIGateway {
      * The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
      */
     period?: QuotaPeriodType;
+  }
+  export interface RequestValidator {
+    /**
+     * The identifier of this RequestValidator.
+     */
+    id?: String;
+    /**
+     * The name of this RequestValidator
+     */
+    name?: String;
+    /**
+     * A Boolean flag to indicate whether to validate a request body according to the configured Model schema.
+     */
+    validateRequestBody?: Boolean;
+    /**
+     * A Boolean flag to indicate whether to validate request parameters (true) or not (false).
+     */
+    validateRequestParameters?: Boolean;
+  }
+  export interface RequestValidators {
+    position?: String;
+    /**
+     * The current page of elements from this collection.
+     */
+    items?: ListOfRequestValidator;
   }
   export interface Resource {
     /**
@@ -2679,14 +2952,14 @@ declare namespace APIGateway {
      */
     path?: String;
     /**
-     * Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160608T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160608/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
+     * Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20170223T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20170223/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
      */
     resourceMethods?: MapOfMethod;
   }
   export interface Resources {
     position?: String;
     /**
-     * Gets the current Resource resource in the collection.
+     * The current page of elements from this collection.
      */
     items?: ListOfResource;
   }
@@ -2704,7 +2977,7 @@ declare namespace APIGateway {
      */
     description?: String;
     /**
-     * The date when the API was created, in ISO 8601 format.
+     * The timestamp when the API was created.
      */
     createdDate?: Timestamp;
     /**
@@ -2723,7 +2996,7 @@ declare namespace APIGateway {
   export interface RestApis {
     position?: String;
     /**
-     * An array of links to the current page of RestApi resources.
+     * The current page of elements from this collection.
      */
     items?: ListOfRestApi;
   }
@@ -2784,7 +3057,7 @@ declare namespace APIGateway {
   export interface SdkTypes {
     position?: String;
     /**
-     * The set of SdkType items that comprise this view of the SdkTypes collection.
+     * The current page of elements from this collection.
      */
     items?: ListOfSdkType;
   }
@@ -2830,27 +3103,27 @@ declare namespace APIGateway {
      */
     documentationVersion?: String;
     /**
-     * The date and time that the stage was created, in ISO 8601 format.
+     * The timestamp when the stage was created.
      */
     createdDate?: Timestamp;
     /**
-     * The date and time that information about the stage was last updated, in ISO 8601 format.
+     * The timestamp when the stage last updated.
      */
     lastUpdatedDate?: Timestamp;
   }
   export interface StageKey {
     /**
-     * A list of Stage resources that are associated with the ApiKey resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId?: String;
     /**
-     * The stage name in the RestApi that the stage key references.
+     * The stage name associated with the stage key.
      */
     stageName?: String;
   }
   export interface Stages {
     /**
-     * An individual Stage resource.
+     * The current page of elements from this collection.
      */
     item?: ListOfStage;
   }
@@ -2864,7 +3137,7 @@ declare namespace APIGateway {
   }
   export interface TestInvokeAuthorizerRequest {
     /**
-     * Specifies a test invoke authorizer request's RestApi identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -2921,7 +3194,7 @@ declare namespace APIGateway {
   }
   export interface TestInvokeMethodRequest {
     /**
-     * Specifies a test invoke method request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3005,7 +3278,7 @@ declare namespace APIGateway {
   }
   export interface UpdateAuthorizerRequest {
     /**
-     * The RestApi identifier for the Authorizer resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3043,7 +3316,7 @@ declare namespace APIGateway {
   }
   export interface UpdateDeploymentRequest {
     /**
-     * The replacement identifier of the RestApi resource for the Deployment resource to change information about.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3057,7 +3330,7 @@ declare namespace APIGateway {
   }
   export interface UpdateDocumentationPartRequest {
     /**
-     * [Required] The identifier of an API of the to-be-updated documentation part.
+     * [Required] The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3071,7 +3344,7 @@ declare namespace APIGateway {
   }
   export interface UpdateDocumentationVersionRequest {
     /**
-     * [Required] The identifier of an API of the to-be-updated documentation version.
+     * [Required] The string identifier of the associated RestApi..
      */
     restApiId: String;
     /**
@@ -3093,9 +3366,23 @@ declare namespace APIGateway {
      */
     patchOperations?: ListOfPatchOperation;
   }
+  export interface UpdateGatewayResponseRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * The response type of the associated GatewayResponse. Valid values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEXPIRED_TOKENINVALID_SIGNATUREINTEGRATION_FAILUREINTEGRATION_TIMEOUTINVALID_API_KEYMISSING_AUTHENTICATION_TOKEN QUOTA_EXCEEDEDREQUEST_TOO_LARGERESOURCE_NOT_FOUNDTHROTTLEDUNAUTHORIZEDUNSUPPORTED_MEDIA_TYPES 
+     */
+    responseType: GatewayResponseType;
+    /**
+     * A list of update operations to be applied to the specified resource and in the order specified in this list.
+     */
+    patchOperations?: ListOfPatchOperation;
+  }
   export interface UpdateIntegrationRequest {
     /**
-     * Represents an update integration request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3113,7 +3400,7 @@ declare namespace APIGateway {
   }
   export interface UpdateIntegrationResponseRequest {
     /**
-     * Specifies an update integration response request's API identifier.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3135,7 +3422,7 @@ declare namespace APIGateway {
   }
   export interface UpdateMethodRequest {
     /**
-     * The RestApi identifier for the Method resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3153,7 +3440,7 @@ declare namespace APIGateway {
   }
   export interface UpdateMethodResponseRequest {
     /**
-     * The RestApi identifier for the MethodResponse resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3175,7 +3462,7 @@ declare namespace APIGateway {
   }
   export interface UpdateModelRequest {
     /**
-     * The RestApi identifier under which the model exists.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3187,9 +3474,23 @@ declare namespace APIGateway {
      */
     patchOperations?: ListOfPatchOperation;
   }
+  export interface UpdateRequestValidatorRequest {
+    /**
+     * The string identifier of the associated RestApi.
+     */
+    restApiId: String;
+    /**
+     * [Required] The identifier of RequestValidator to be updated.
+     */
+    requestValidatorId: String;
+    /**
+     * A list of update operations to be applied to the specified resource and in the order specified in this list.
+     */
+    patchOperations?: ListOfPatchOperation;
+  }
   export interface UpdateResourceRequest {
     /**
-     * The RestApi identifier for the Resource resource.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3203,7 +3504,7 @@ declare namespace APIGateway {
   }
   export interface UpdateRestApiRequest {
     /**
-     * The ID of the RestApi you want to update.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3213,7 +3514,7 @@ declare namespace APIGateway {
   }
   export interface UpdateStageRequest {
     /**
-     * The identifier of the RestApi resource for the Stage resource to change information about.
+     * The string identifier of the associated RestApi.
      */
     restApiId: String;
     /**
@@ -3319,14 +3620,14 @@ declare namespace APIGateway {
   export interface UsagePlanKeys {
     position?: String;
     /**
-     * Gets the current item of the usage plan keys collection.
+     * The current page of elements from this collection.
      */
     items?: ListOfUsagePlanKey;
   }
   export interface UsagePlans {
     position?: String;
     /**
-     * Gets the current item when enumerating the collection of UsagePlan.
+     * The current page of elements from this collection.
      */
     items?: ListOfUsagePlan;
   }

@@ -6,6 +6,8 @@ import {ServiceConfigurationOptions} from '../lib/service';
 import {ConfigBase as Config} from '../lib/config';
 import {UseDualstackConfigOptions} from '../lib/config_use_dualstack';
 import {ManagedUpload as managed_upload} from '../lib/s3/managed_upload';
+import {PresignedPost as presigned_post} from '../lib/s3/presigned_post';
+import {Readable} from 'stream';
 interface Blob {}
 declare class S3 extends S3Customizations {
   /**
@@ -636,6 +638,7 @@ declare class S3 extends S3Customizations {
 }
 declare namespace S3 {
   export import ManagedUpload = managed_upload;
+  export import PresignedPost = presigned_post;
 }
 declare namespace S3 {
   export type AbortDate = Date;
@@ -741,7 +744,7 @@ declare namespace S3 {
     Prefix?: Prefix;
   }
   export type AnalyticsS3ExportFileFormat = "CSV"|string;
-  export type Body = Buffer|Uint8Array|Blob|string;
+  export type Body = Buffer|Uint8Array|Blob|string|Readable;
   export interface Bucket {
     /**
      * The name of the bucket.
@@ -1204,6 +1207,10 @@ declare namespace S3 {
      */
     SSEKMSKeyId?: SSEKMSKeyId;
     RequestPayer?: RequestPayer;
+    /**
+     * The tag-set for the object. The tag-set must be encoded as URL Query parameters
+     */
+    Tagging?: TaggingHeader;
   }
   export type CreationDate = Date;
   export type _Date = Date;

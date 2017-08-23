@@ -104,14 +104,18 @@ class MethodDocumentor
 
     @lines << "@param params [Object]"
     @lines += shapes(api, operation['input'], options).map {|line| "  " + line }
-
     if examples
       examples.each do |example|
-        @lines << "@example #{example['title']}"
-        @lines << ""
-        @lines << " /* #{example['description']} */"
-        @lines << ""
-        @lines << generate_shared_example(api, example, klass, method_name(operation_name)).split("\n").map {|line| "  " + line}
+        begin
+          sharedExample = generate_shared_example(api, example, klass, method_name(operation_name)).split("\n").map {|line| "  " + line}
+          @lines << "@example #{example['title']}"
+          @lines << ""
+          @lines << " /* #{example['description']} */"
+          @lines << ""
+          @lines << sharedExample
+        rescue => exception
+          puts "[warn]: Error encountered generating example for #{klass}.#{operation_name}: #{exception}"
+        end
       end
     end
 
@@ -395,17 +399,22 @@ class ExampleShapeVisitor
   end
 
   def visit_map(node, required = false)
-    data = indent("someKey: " + traverse(node['value']))
+    data = indent("'<#{node['key']['shape']}>': " + traverse(node['value']))
     lines = ["{" + mark_rec_shape(node) + (required ? " /* required */" : "")]
     lines << data + ","
-    lines << "  /* anotherKey: ... */"
+    lines << "  /* '<#{node['key']['shape']}>': ... */"
     lines << "}"
     lines.join("\n")
   end
 
   def visit_string(node, required = false)
-    value = node['enum'] ? node['enum'].join(' | ') : 'STRING_VALUE'
-    "'#{value}'"
+    if node['jsonvalue']
+      "any /* This value will be JSON encoded on your behalf with JSON.stringify() */"
+    elsif node['enum']
+      node['enum'].join(' | ')
+    else
+      "'STRING_VALUE'"
+    end
   end
 
   def visit_integer(node, required = false)

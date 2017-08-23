@@ -57,7 +57,8 @@
         {"shape":"InternalErrorException"},
         {"shape":"InvalidParameterException"},
         {"shape":"CreationLimitExceededException"},
-        {"shape":"DuplicateRecordException"}
+        {"shape":"DuplicateRecordException"},
+        {"shape":"NotFoundException"}
       ],
       "documentation":"Create a new Subscriber for a notification"
     },
@@ -249,16 +250,17 @@
     },
     "BudgetName":{
       "type":"string",
-      "documentation":"A string represents the budget name. No \":\" character is allowed.",
+      "documentation":"A string represents the budget name. No \":\" and \"\\\" character is allowed.",
       "max":100,
-      "pattern":"[^:]+"
+      "pattern":"[^:\\\\]+"
     },
     "BudgetType":{
       "type":"string",
-      "documentation":"The type of a budget. Can be COST or USAGE.",
+      "documentation":"The type of a budget. It should be COST, USAGE, or RI_UTILIZATION.",
       "enum":[
         "USAGE",
-        "COST"
+        "COST",
+        "RI_UTILIZATION"
       ]
     },
     "Budgets":{
@@ -606,7 +608,7 @@
     "NotificationThreshold":{
       "type":"double",
       "documentation":"The threshold of the a notification. It should be a number between 0 and 100.",
-      "max":100,
+      "max":300,
       "min":0.1
     },
     "NotificationType":{
@@ -643,7 +645,7 @@
     "NumericValue":{
       "type":"string",
       "documentation":"A string to represent NumericValue.",
-      "pattern":"[0-9]+(\\.)?[0-9]*"
+      "pattern":"[0-9]*(\\.)?[0-9]+"
     },
     "Spend":{
       "type":"structure",
@@ -653,7 +655,7 @@
       ],
       "members":{
         "Amount":{"shape":"NumericValue"},
-        "Unit":{"shape":"GenericString"}
+        "Unit":{"shape":"UnitValue"}
       },
       "documentation":"A structure represent either a cost spend or usage spend. Contains an amount and a unit."
     },
@@ -698,12 +700,18 @@
     },
     "TimeUnit":{
       "type":"string",
-      "documentation":"The time unit of the budget. e.g. weekly, monthly, etc.",
+      "documentation":"The time unit of the budget. e.g. MONTHLY, QUARTERLY, etc.",
       "enum":[
+        "DAILY",
         "MONTHLY",
         "QUARTERLY",
         "ANNUALLY"
       ]
+    },
+    "UnitValue":{
+      "type":"string",
+      "documentation":"A string to represent budget spend unit. It should be not null and not empty.",
+      "min":1
     },
     "UpdateBudgetRequest":{
       "type":"structure",

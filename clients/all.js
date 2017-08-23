@@ -1,6 +1,4 @@
 require('../lib/node_loader');
-var AWS = require('../lib/core');
-
 module.exports = {
   ACM: require('./acm'),
   APIGateway: require('./apigateway'),
@@ -9,6 +7,7 @@ module.exports = {
   AutoScaling: require('./autoscaling'),
   Batch: require('./batch'),
   Budgets: require('./budgets'),
+  CloudDirectory: require('./clouddirectory'),
   CloudFormation: require('./cloudformation'),
   CloudFront: require('./cloudfront'),
   CloudHSM: require('./cloudhsm'),
@@ -26,6 +25,7 @@ module.exports = {
   CognitoIdentityServiceProvider: require('./cognitoidentityserviceprovider'),
   CognitoSync: require('./cognitosync'),
   ConfigService: require('./configservice'),
+  CUR: require('./cur'),
   DataPipeline: require('./datapipeline'),
   DeviceFarm: require('./devicefarm'),
   DirectConnect: require('./directconnect'),
@@ -58,18 +58,22 @@ module.exports = {
   KinesisAnalytics: require('./kinesisanalytics'),
   KMS: require('./kms'),
   Lambda: require('./lambda'),
+  LexRuntime: require('./lexruntime'),
   Lightsail: require('./lightsail'),
   MachineLearning: require('./machinelearning'),
   MarketplaceCommerceAnalytics: require('./marketplacecommerceanalytics'),
   MarketplaceMetering: require('./marketplacemetering'),
+  MTurk: require('./mturk'),
   MobileAnalytics: require('./mobileanalytics'),
   OpsWorks: require('./opsworks'),
   OpsWorksCM: require('./opsworkscm'),
+  Organizations: require('./organizations'),
   Pinpoint: require('./pinpoint'),
   Polly: require('./polly'),
   RDS: require('./rds'),
   Redshift: require('./redshift'),
   Rekognition: require('./rekognition'),
+  ResourceGroupsTaggingAPI: require('./resourcegroupstaggingapi'),
   Route53: require('./route53'),
   Route53Domains: require('./route53domains'),
   S3: require('./s3'),
@@ -90,5 +94,15 @@ module.exports = {
   XRay: require('./xray'),
   WAF: require('./waf'),
   WAFRegional: require('./wafregional'),
-  WorkSpaces: require('./workspaces')
+  WorkDocs: require('./workdocs'),
+  WorkSpaces: require('./workspaces'),
+  CodeStar: require('./codestar'),
+  LexModelBuildingService: require('./lexmodelbuildingservice'),
+  MarketplaceEntitlementService: require('./marketplaceentitlementservice'),
+  Athena: require('./athena'),
+  Greengrass: require('./greengrass'),
+  DAX: require('./dax'),
+  MigrationHub: require('./migrationhub'),
+  CloudHSMV2: require('./cloudhsmv2'),
+  Glue: require('./glue')
 };

@@ -1,8 +1,14 @@
 import S3 = require('../clients/s3');
 import fs = require('fs');
+import {Endpoint} from '../lib/endpoint';
 
 // Instantiate S3 without options
 var s3 = new S3();
+
+// Instantiate S3 without using the global credentials
+new S3({
+    credentials: null
+});
 
 // Instantiate S3 with config
 var s3Config: S3.Types.ClientConfiguration = {
@@ -120,11 +126,25 @@ s3.putObject({
     Body: fs.createReadStream('/fake/path')
 });
 
-const upload = s3.upload({
-    Bucket: 'BUCKET',
-    Key: 'KEY',
-    Body: new Buffer('some data')
-});
+const upload = s3.upload(
+    {
+        Bucket: 'BUCKET',
+        Key: 'KEY',
+        Body: new Buffer('some data')
+    },
+    {
+        tags: [
+            {
+                Key: 'key',
+                Value: 'value',
+            },
+            {
+                Key: 'otherKey',
+                Value: 'otherValue',
+            },
+        ],
+    }
+);
 
 // test managed upload promise support
 upload.promise()
@@ -161,3 +181,20 @@ var uploader2: S3.ManagedUpload = new S3.ManagedUpload(<S3.ManagedUpload.Managed
 uploader2.send((err, data) => {
 
 });
+
+var endpoint: Endpoint = s3.endpoint;
+
+const presignedPost: S3.Types.PresignedPost = s3.createPresignedPost({
+    Bucket: 'bucket',
+    Conditions: [
+        ['starts-with', '$key', ''],
+        ['content-length-range', 0, 1024 * 1024 * 1024],
+    ],
+    Fields: {
+        'acl': 'bucket-owner-full-control'
+    },
+    Expires: 900
+});
+
+const url: string = presignedPost.url;
+const fields: S3.Types.PresignedPost.Fields = presignedPost.fields;

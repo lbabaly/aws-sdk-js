@@ -30,6 +30,13 @@ AWS.config.update({
     credentials: new AWS.Credentials('accessKeyId', 'secretAccessKey', 'sessionToken')
 });
 
+// update credentials using direct CredentialsOptions
+AWS.config.update({
+    accessKeyId: 'accessKeyId',
+    secretAccessKey: 'secretAccessKey',
+    sessionToken: 'sessionToken'
+});
+
 // set all normal config
 AWS.config.update({
     apiVersion: "latest",
@@ -87,3 +94,12 @@ var config = AWS.config.loadFromPath('/to/path');
 AWS.config.update({
    fake: 'fake' 
 }, true);
+
+// Test constructing with a CredentialProviderChain
+var options = {
+    credentialProvider: new AWS.CredentialProviderChain([
+        () => new AWS.EC2MetadataCredentials()
+    ])
+};
+var s3 = new AWS.S3(options);
+var ses = new AWS.SES(options);
